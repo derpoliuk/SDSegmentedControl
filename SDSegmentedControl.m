@@ -65,9 +65,9 @@ const CGFloat kSDSegmentedControlScrollOffset = 20;
     if ((self = [self init]))
     {
         [items enumerateObjectsUsingBlock:^(id title, NSUInteger idx, BOOL *stop)
-        {
-            [self insertSegmentWithTitle:title atIndex:idx animated:NO];
-        }];
+         {
+             [self insertSegmentWithTitle:title atIndex:idx animated:NO];
+         }];
     }
     return self;
 }
@@ -98,7 +98,8 @@ const CGFloat kSDSegmentedControlScrollOffset = 20;
     _interItemSpace = kSDSegmentedControlInterItemSpace;
     _stainEdgeInsets = kSDSegmentedControlStainEdgeInsets;
     __items = NSMutableArray.new;
-
+    _stainViewLineHeight = 2.0;
+    
     // Appearance properties
     _animationDuration = kSDSegmentedControlDefaultDuration;
     _arrowSize = kSDSegmentedControlArrowSize;
@@ -584,8 +585,16 @@ const CGFloat kSDSegmentedControlScrollOffset = 20;
     {
         SDSegmentView *selectedItem = self._items[self.selectedSegmentIndex];
         selectedItemCenterPosition = selectedItem.center.x;
-
-        CGRect stainFrame = UIEdgeInsetsInsetRect(selectedItem.innerFrame, self.stainEdgeInsets);
+        
+        CGRect stainFrame = CGRectZero;
+        if (self.stainViewType == SDSegmentedStainViewTypeRound) {
+            stainFrame = UIEdgeInsetsInsetRect(selectedItem.innerFrame, self.stainEdgeInsets);
+        } else {
+            stainFrame = selectedItem.frame;
+            stainFrame.size.height = self.stainViewLineHeight;
+            stainFrame.origin.y = CGRectGetMinY(selectedItem.innerFrame) - self.stainViewLineHeight;
+        }
+        
         CGFloat cornerRadius = 0;
         if ([self._selectedStainView isKindOfClass:[SDStainView class]])
         {

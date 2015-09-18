@@ -19,6 +19,13 @@ typedef enum {
     SDSegmentedArrowPositionTop
 } SDSegmentedArrowPosition;
 
+typedef NS_ENUM(NSUInteger, SDSegmentedStainViewType) {
+    /// Round view behind the text
+    SDSegmentedStainViewTypeRound,
+    /// Line on the top of the text
+    SDSegmentedStainViewTypeLine
+};
+
 @interface SDSegmentedControl : UISegmentedControl <UIScrollViewDelegate>
 
 @property (retain, nonatomic) UIColor *backgroundColor UI_APPEARANCE_SELECTOR;
@@ -37,6 +44,19 @@ typedef enum {
 @property (retain, nonatomic) UIFont *titleFont UI_APPEARANCE_SELECTOR;
 @property (retain, nonatomic) UIFont *selectedTitleFont UI_APPEARANCE_SELECTOR;
 @property (assign, nonatomic) BOOL centerSegmentsIfPossible UI_APPEARANCE_SELECTOR;
+/**
+ Style of stain view.
+ 
+ By default is SDSegmentedStainViewTypeRound. If set to SDSegmentedStainViewTypeLine, stainEdgeInsets is ignored.
+ */
+@property (assign, nonatomic) SDSegmentedStainViewType stainViewType UI_APPEARANCE_SELECTOR;
+/**
+ 
+ Height of stainView if stainViewType == SDSegmentedStainViewTypeLine
+ 
+ By default is set to 2
+ */
+@property (assign, nonatomic) CGFloat stainViewLineHeight UI_APPEARANCE_SELECTOR;
 
 @property (assign,nonatomic) UIScrollView *scrollView;
 
